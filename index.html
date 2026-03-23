@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tukasom Controle</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Bibliotecas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="layout">
+
+        <!-- ===================================================== -->
+        <!-- SIDEBAR -->
+        <!-- ===================================================== -->
+        <aside class="sidebar">
+
+            <div class="sidebar-top">
+                <img id="logo" src="assets/logo-TUKASOM-AUDIOSYSTEMS-2.svg" class="logo" alt="Logo Tukasom">
+                <h2>Tukasom</h2>
+
+                <ul class="sidebar-menu">
+
+                    <li data-label="Equipamentos" onclick="mostrarTela('equip', this)" class="ativo">
+                        <span class="menu-icon">
+                            <!-- Box -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M21 8V21H3V8"/>
+                                <path d="M1 3H23V8H1Z"/>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Equipamentos</span>
+                    </li>
+
+                    <li data-label="Histórico" onclick="mostrarTela('hist', this)">
+                        <span class="menu-icon">
+                            <!-- Clock -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6V12L16 14"/>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Histórico</span>
+                    </li>
+
+                    <li data-label="Dashboard" onclick="mostrarTela('dash', this)">
+                        <span class="menu-icon">
+                            <!-- Chart -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M3 3V21H21"/>
+                                <path d="M7 14L11 10L15 14L19 8"/>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Dashboard</span>
+                    </li>
+
+                    <li data-label="Manutenção" onclick="mostrarTela('manutencao', this)" class="admin-only">
+                        <span class="menu-icon">
+                            <!-- Wrench -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M14.7 6.3a4 4 0 01-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4z"/>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Manutenção</span>
+                    </li>
+
+                    <li data-label="Desativados" onclick="mostrarTela('desativados', this)" class="admin-only">
+                        <span class="menu-icon">
+                            <!-- Power -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 2V12"/>
+                                <path d="M5 5A9 9 0 1019 5"/>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Desativados</span>
+                    </li>
+
+                    <li data-label="Eventos" onclick="mostrarTela('eventos', this)">
+                        <span class="menu-icon">
+                            <!-- Calendar -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                <path d="M16 2V6M8 2V6M3 10H21"/>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Eventos</span>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="sidebar-bottom admin-only">
+                <button id="btnOpenSettings" class="sidebar-settings-btn" type="button">
+                    <span class="menu-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </span>
+                    <span class="menu-text">Configurações</span>
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- ===================================================== -->
+        <!-- CONTEÚDO PRINCIPAL -->
+        <!-- ===================================================== -->
+        <main class="content">
+
+            <!-- ================= TOPBAR ================= -->
+            <div class="topbar">
+                <div class="topbar-actions">
+                    <div id="userAccess" class="user-access">
+                        <button id="btnOpenLogin" class="btn btn-primary">
+                            Entrar como Adm
+                        </button>
+
+                        <div id="userInfo" class="user-info" style="display:none;">
+                            <span id="userRoleBadge" class="role-badge">Administrador</span>
+                            <span id="userEmail"></span>
+                            <button id="btnLogout" class="btn btn-danger">Sair</button>
+                        </div>
+                    </div>
+
+                    <button id="toggleTheme" aria-label="Alternar tema">🌙</button>
+                </div>
+            </div>
+
+            <!-- ===================================================== -->
+            <!-- TELA: EQUIPAMENTOS -->
+            <!-- ===================================================== -->
+            <section id="equip" class="tela ativa">
+                <h1>Dashboard Operacional</h1>
+                <p class="sub">Gerenciamento inteligente de ativos</p>
+
+                <div id="scannerCard" class="card admin-only">
+                    <label for="barcodeInput">Escanear Equipamento</label>
+                    <input id="barcodeInput" placeholder="Escaneie o código" autofocus>
+
+                    <button id="btnPDF" class="btn-report">
+                        📄 Exportar PDF
+                    </button>
+                </div>
+
+                <div id="alerta"></div>
+
+                <div class="card">
+                    <h2>Equipamentos</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Equipamento</th>
+                                <th>Categoria</th>
+                                <th>Status</th>
+                                <th>Pessoa</th>
+                                <th>Eventos</th>
+                                <th class="admin-only">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equipTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ===================================================== -->
+            <!-- TELA: HISTÓRICO -->
+            <!-- ===================================================== -->
+            <section id="hist" class="tela">
+                <div class="card">
+                    <label for="pdfMesInicio">Período do PDF:</label>
+                    <input type="month" id="pdfMesInicio">
+                    <span>até</span>
+                    <input type="month" id="pdfMesFim">
+                </div>
+
+                <button id="btnPDFHist" class="btn-report">
+                    📊 Exportar Histórico PDF
+                </button>
+
+                <div class="card">
+                    <div class="filtros-historico">
+                        <input
+                            type="text"
+                            id="searchHistorico"
+                            placeholder="🔎 Buscar equipamento ou pessoa..."
+                        >
+
+                        <select id="filterStatus">
+                            <option value="">Todos</option>
+                            <option value="EM USO">Em uso</option>
+                            <option value="DISPONIVEL">Disponível</option>
+                            <option value="MANUTENÇÃO">Manutenção</option>
+                            <option value="DESATIVADO">Desativado</option>
+                        </select>
+                    </div>
+
+                    <h2>Histórico</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Equipamento</th>
+                                <th>Pessoa</th>
+                                <th>Evento</th>
+                                <th>Saída</th>
+                                <th>Entrada</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historicoTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ===================================================== -->
+            <!-- TELA: DASHBOARD -->
+            <!-- ===================================================== -->
+            <section id="dash" class="tela">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3 id="totalEquip">0</h3>
+                        <p>Total</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 id="dispEquip">0</h3>
+                        <p>Disponíveis</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 id="usoEquip">0</h3>
+                        <p>Em Uso</p>
+                    </div>
+
+                    <div class="card card-warning">
+                        <h3 id="manutEquip">0</h3>
+                        <p>Em Manutenção</p>
+                    </div>
+
+                    <div class="card card-danger">
+                        <h3 id="atrasoEquip">0</h3>
+                        <p>Em Atraso</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Alertas de atraso</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Equipamento</th>
+                                <th>Pessoa</th>
+                                <th>Evento</th>
+                                <th>Saída</th>
+                                <th>Atraso</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaAtrasos"></tbody>
+                    </table>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Categorias</h3>
+                        <canvas id="graficoCategoria"></canvas>
+                    </div>
+
+                    <div class="card">
+                        <h3>Uso Atual</h3>
+                        <canvas id="graficoUtilizacao"></canvas>
+                    </div>
+
+                    <div class="card">
+                        <h3>Top 5 Mais Usados</h3>
+                        <canvas id="graficoMaisUsados"></canvas>
+                    </div>
+
+                    <div class="card">
+                        <h3>Movimentações (Últimos 7 dias)</h3>
+                        <canvas id="graficoDesempenho"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================== -->
+            <!-- TELA: MANUTENÇÃO -->
+            <!-- ===================================================== -->
+            <section id="manutencao" class="tela admin-only">
+                <div class="card">
+                    <h2>Equipamentos em Manutenção</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Equipamento</th>
+                                <th>Categoria</th>
+                                <th>Local</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="manutTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ===================================================== -->
+            <!-- TELA: DESATIVADOS -->
+            <!-- ===================================================== -->
+            <section id="desativados" class="tela admin-only">
+                <div class="card">
+                    <h2>Equipamentos Desativados</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Equipamento</th>
+                                <th>Categoria</th>
+                                <th>Motivo</th>
+                                <th>Observação</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="desativadosTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ===================================================== -->
+            <!-- TELA: EVENTOS -->
+            <!-- ===================================================== -->
+            <section id="eventos" class="tela">
+                <div class="card">
+                    <h2>Eventos Ativos</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Evento</th>
+                                <th>Equipamentos em uso</th>
+                                <th>Pessoas</th>
+                                <th>Equipamentos</th>
+                                <th>Última movimentação</th>
+                                <th class="admin-only">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventosTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h2>Eventos Arquivados</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Evento</th>
+                                <th>Pessoas</th>
+                                <th>Equipamentos</th>
+                                <th>Arquivado em</th>
+                                <th>Última movimentação</th>
+                                <th class="admin-only">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventosArquivadosTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ===================================================== -->
+            <!-- MODAIS -->
+            <!-- ===================================================== -->
+
+            <!-- MODAL: MANUTENÇÃO -->
+            <div id="modalManutencao" class="modal admin-only" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Enviar para manutenção</h2>
+                        <span onclick="fecharModal()">✖</span>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Equipamento:</p>
+                        <strong id="nomeEquipManut"></strong>
+
+                        <p>O status será alterado para <b style="color:#f59e0b;">MANUTENÇÃO</b></p>
+
+                        <input type="hidden" id="idEquipManut">
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
+                        <button id="confirmarManutBtn" class="btn btn-warning">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: CADASTRO / EDIÇÃO -->
+            <div id="modalCadastro" class="modal admin-only" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Equipamento</h2>
+                        <span onclick="fecharModal()">✖</span>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="hidden" id="modalID">
+
+                        <input type="text" id="modalNome" placeholder="Nome do equipamento">
+
+                        <select id="modalCategoria">
+                            <option value="Áudio">Áudio</option>
+                            <option value="Vídeo">Vídeo</option>
+                            <option value="Luz">Luz</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+
+                        <input
+                            type="text"
+                            id="modalPessoa"
+                            placeholder="Responsável (quem está com o equipamento)"
+                        >
+
+                        <select id="modalStatus">
+                            <option value="DISPONIVEL">Disponível</option>
+                            <option value="EM USO">Em uso</option>
+                            <option value="MANUTENÇÃO">Manutenção</option>
+                        </select>
+
+                        <input
+                            type="text"
+                            id="modalEvento"
+                            placeholder="Evento / Show (onde está sendo usado)"
+                        >
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
+                        <button id="salvarEquip" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: RETIRAR MANUTENÇÃO -->
+            <div id="modalRetirarManut" class="modal admin-only" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Concluir manutenção</h2>
+                        <span onclick="fecharModal()">✖</span>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Equipamento:</p>
+                        <strong id="nomeEquipRetirar"></strong>
+
+                        <p>Status será <b style="color:#22c55e;">DISPONÍVEL</b></p>
+
+                        <input type="hidden" id="idEquipRetirar">
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
+                        <button id="confirmarRetiradaBtn" class="btn btn-success">Concluir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: DESATIVAÇÃO -->
+            <div id="modalDesativacao" class="modal admin-only" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Desativar equipamento</h2>
+                        <span onclick="fecharModal()">✖</span>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Equipamento:</p>
+                        <strong id="nomeEquipDesativar"></strong>
+
+                        <input type="hidden" id="idEquipDesativar">
+
+                        <select id="motivoDesativacao">
+                            <option value="DEFEITO">Defeito</option>
+                            <option value="SEM CONSERTO">Sem conserto</option>
+                            <option value="QUEBROU">Quebrou</option>
+                            <option value="PERDEU">Perdeu</option>
+                            <option value="OUTRO">Outro</option>
+                        </select>
+
+                        <input
+                            type="text"
+                            id="observacaoDesativacao"
+                            placeholder="Observação / estado atual"
+                        >
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
+                        <button id="confirmarDesativacaoBtn" class="btn btn-danger">Desativar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: ARQUIVAR EVENTO -->
+            <div id="modalArquivarEvento" class="modal admin-only" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Arquivar evento</h2>
+                        <span onclick="fecharModal()">✖</span>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Evento:</p>
+                        <strong id="nomeEventoArquivar"></strong>
+                        <input type="hidden" id="idEventoArquivar">
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
+                        <button id="confirmarArquivarEventoBtn" class="btn btn-warning">Arquivar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: LOGIN -->
+            <div id="modalLogin" class="modal" style="display:none;">
+                <div class="modal-content auth-modal">
+                    <div class="modal-header">
+                        <h2>Acesso administrativo</h2>
+                        <span onclick="fecharModal()">✖</span>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="email" id="loginEmail" placeholder="E-mail do administrador">
+                        <input type="password" id="loginSenha" placeholder="Senha">
+                        <div id="loginErro" class="login-erro" style="display:none;"></div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
+                        <button id="btnLogin" class="btn btn-primary">Entrar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: CONFIGURAÇÕES -->
+            <div id="modalConfiguracoes" class="modal" style="display:none">
+
+                <div class="modal-content settings-modal">
+
+                    <div class="modal-header">
+                        <div class="settings-title-wrap">
+                            <h2>Configurações do Sistema</h2>
+                            <span class="settings-badge">Administrador</span>
+                        </div>
+
+                        <span onclick="fecharModal()">✖</span>
+                    </div>
+
+                    <div class="modal-body settings-body">
+
+                        <!-- Empresa -->
+                        <div class="settings-section">
+                            <h3>Empresa</h3>
+
+                            <label>Nome da empresa</label>
+                            <input id="configEmpresa"
+                                type="text"
+                                placeholder="Ex: Tukasom">
+
+                            <div class="settings-info-card">
+                                <p>Este nome aparece no sistema e relatórios.</p>
+                            </div>
+                        </div>
+
+                        <!-- Atraso -->
+                        <div class="settings-section">
+                            <h3>Controle de atraso</h3>
+
+                            <label>Horas para considerar atraso</label>
+                            <input id="configHorasAtraso"
+                                type="number"
+                                min="1"
+                                value="24">
+                        </div>
+
+                        <!-- Tema -->
+                        <div class="settings-section">
+                            <h3>Tema padrão</h3>
+
+                            <label>Escolha o tema</label>
+                            <select id="configTema">
+                                <option value="light">Claro</option>
+                                <option value="dark">Escuro</option>
+                            </select>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <div class="settings-section">
+                            <h3>Barra Lateral</h3>
+
+                            <label>Modo da barra lateral</label>
+                            <select id="configModoSidebar">
+                                <option value="default">Normal</option>
+                                <option value="compact">Compacta</option>
+                            </select>
+                        </div>
+
+                        <!-- Feedback -->
+                        <div id="settingsFeedback"
+                            class="settings-feedback"
+                            style="display:none">
+                        </div>
+
+                    </div>
+
+                    <div class="modal-actions">
+                        <button onclick="fecharModal()" class="btn btn-ghost">
+                            Cancelar
+                        </button>
+
+                        <button id="btnSalvarSettings" class="btn btn-primary">
+                            Salvar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="./js/main.js"></script>
+
+    <script>
+        window.Chart = Chart;
+        lucide.createIcons();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</body>
+
+</html>
